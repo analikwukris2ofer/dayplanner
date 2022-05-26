@@ -1,6 +1,6 @@
 import { shuffle } from "lodash";
 import { nanoid } from "nanoid";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TaskContext from "../contexts/taskStore";
 import { Task } from "../types";
 import useLocalStorage from "./useLocalStorage";
@@ -16,8 +16,14 @@ const useStore = () => {
   //   "focused",
   //   undefined
   // );
+
+  // const getIncompleteTask = () =>
+  //   tasks.filter((task) => !task.isComplete)[0]?.id;
   const [focusedTaskId, setFocusedTaskId] = useState<String | undefined>(
-    undefined
+    // undefined
+    // tasks.filter((task) => !task.isComplete)[0]?.id
+    // getIncompleteTask()
+    tasks.filter((task) => !task.isComplete)[0]?.id
   );
 
   // const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -49,10 +55,17 @@ const useStore = () => {
         return task;
       })
     );
+
+    // if (taskId === focusedTaskId) setFocusedTaskId(getIncompleteTask());
   };
 
   // const focusedTask = tasks.filter((task) => !task.isComplete)[0];
   const focusedTask = tasks.find((task) => task.id === focusedTaskId);
+
+  useEffect(() => {
+    if (focusedTask?.isComplete)
+      setFocusedTaskId(tasks.filter((task) => !task.isComplete)[0]?.id);
+  }, [tasks, focusedTask]);
 
   const shuffleFocus = () => {
     setFocusedTaskId(shuffle(tasks.filter((task) => !task.isComplete))[0]?.id); //question mark means we pull id if it is not null or undefined otherwise undefined is returned.
