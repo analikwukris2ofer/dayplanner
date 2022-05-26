@@ -1,22 +1,36 @@
 import { nanoid } from "nanoid";
-import React, { ChangeEvent, useState, KeyboardEvent, MouseEvent } from "react";
+import React, {
+  ChangeEvent,
+  useState,
+  KeyboardEvent,
+  MouseEvent,
+  useContext,
+} from "react";
+import TaskContext from "../contexts/taskStore";
+import useStore from "../hooks/useStore";
 import { Task, TasksProps } from "../types";
 
-type Props = TasksProps & {};
-
+// type Props = TasksProps & {};
+type Props = {};
 // type Props = {
 //   tasks: Task[];
 //   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 // };
 
-const ListScreen: React.FC<Props> = ({
-  addTask,
-  tasks,
-  setTasks,
-  ToggleComplete,
-}) => {
+// const ListScreen: React.FC<Props> = () => {
+//({
+//   addTask,
+//   tasks,
+//   setTasks,
+//   ToggleComplete,
+// }) => {
+const ListScreen: React.FC<Props> = () => {
+  const { addTask, tasks, setTasks, ToggleComplete } = useStore();
   // const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState("");
+
+  // const value = useContext(TaskContext);
+  //This helps to spread the value from the context all around the App.
 
   const handleNewTask = (e: ChangeEvent<HTMLInputElement>) =>
     setNewTask(e.target.value);
