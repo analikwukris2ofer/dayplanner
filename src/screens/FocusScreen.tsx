@@ -1,7 +1,26 @@
 import React from "react";
+import styled from "styled-components";
+import Button from "../components/Button";
+import Spacer from "../components/Spacer";
+import TextButton from "../components/TextButton";
 import useStore from "../hooks/useStore";
 import { Task, TasksProps } from "../types";
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+`;
+
+const Stretch = styled.div`
+  flex: 1; //flex grow only grows as large as the parent container will allow.
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  padding-bottom: 45px;
+`;
 // type Props = TasksProps & {};
 type Props = {};
 
@@ -26,11 +45,12 @@ const FocusScreen: React.FC<Props> = () => {
   //   shuffleFocus();
   // };
   return task ? (
-    <div>
-      <div>{task.label}</div>
-      <button onClick={handleMarkComplete}>mark complete</button>
-      <button onClick={shuffleFocus}>Nope</button>
-    </div>
+    <Container>
+      <Stretch>{task.label}</Stretch>
+      <Button onClick={handleMarkComplete}>Mark complete</Button>
+      <Spacer height={45} />
+      <TextButton onClick={shuffleFocus}>Nope</TextButton>
+    </Container>
   ) : (
     <div>No incomplete Tasks</div>
   );
