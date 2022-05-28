@@ -6,10 +6,52 @@ import React, {
   MouseEvent,
   useContext,
 } from "react";
+import styled from "styled-components";
+import IconButton from "../components/IconButton";
+import Spacer from "../components/Spacer";
+import TextButton from "../components/TextButton";
 import TaskContext from "../contexts/taskStore";
 import useStore from "../hooks/useStore";
+import DeleteIcon from "../icons/DeleteIcon";
 import { Task, TasksProps } from "../types";
 
+const Container = styled.div`
+  /* align-self: stretch; */
+  display: flex;
+  /* flex: 0 1 460px; //flex-grow, flex-shrink, flex-basis - The shrink attribute of one means it will shrink when screen is smaller, flex grow of 0 means it will not grow even if screen is larger. */
+  flex-direction: column;
+  align-items: stretch; // everything will stretch out to match the container.
+  width: 460px;
+`;
+const List = styled.div`
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 45px 24px;
+  display: flex;
+  flex-direction: column;
+`;
+const ListItem = styled.label`
+  /* margin-bottom: 8px; */
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  padding: 4px 0; // gives us a padding top and bottom of 4px
+`;
+
+const DeleteButton = styled(IconButton)`
+  /* visibility: hidden;
+
+  ${ListItem}:hover & {
+    visibility: visible;
+  } */
+`;
+const Input = styled.input`
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: #fff;
+  border-radius: 15px;
+  padding: 20px 24px;
+`;
 // type Props = TasksProps & {};
 type Props = {};
 // type Props = {
@@ -68,29 +110,38 @@ const ListScreen: React.FC<Props> = () => {
   };
 
   return (
-    <div>
-      <div>
+    <Container>
+      <List>
         {tasks.map((task) => (
-          <div key={task.id}>
+          <ListItem key={task.id}>
             <input
+              //If you put your checkbox inside the label tag you can click on the name beside the checkbox and the checkbox will be selected.
               type="checkbox"
               checked={task.isComplete}
               onChange={handleChange(task)}
             />
+            <Spacer width={24} />
             {task.label}
-            <button onClick={handleDelete(task)}>delete</button>
-          </div>
+            <Spacer flex={1} />
+            <DeleteButton showOnHover onClick={handleDelete(task)}>
+              <DeleteIcon />
+            </DeleteButton>
+          </ListItem>
         ))}
-      </div>
-      <input
+      </List>
+      <Spacer height={30} />
+      <Input
+        placeholder="Add a task"
         value={newTask}
         onChange={handleNewTask}
         onKeyPress={handleKeyPress}
       />
-      <div>
-        <button onClick={handleClear}>Clear Completed</button>
-      </div>
-    </div>
+      <Spacer height={45} />
+
+      <TextButton onClick={handleClear} style={{ alignSelf: "center" }}>
+        Clear Completed
+      </TextButton>
+    </Container>
   );
 };
 
