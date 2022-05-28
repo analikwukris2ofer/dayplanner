@@ -7,6 +7,7 @@ import React, {
   useContext,
 } from "react";
 import styled from "styled-components";
+import Checkbox from "../components/Checkbox";
 import IconButton from "../components/IconButton";
 import Spacer from "../components/Spacer";
 import TextButton from "../components/TextButton";
@@ -114,9 +115,9 @@ const ListScreen: React.FC<Props> = () => {
       <List>
         {tasks.map((task) => (
           <ListItem key={task.id}>
-            <input
+            <Checkbox
               //If you put your checkbox inside the label tag you can click on the name beside the checkbox and the checkbox will be selected.
-              type="checkbox"
+              // type="checkbox"
               checked={task.isComplete}
               onChange={handleChange(task)}
             />
